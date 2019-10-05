@@ -4,7 +4,7 @@
 This is a basic PHP component package, extremelly simple to use and recommended for smal projects where you don't need to import an extremelly heavy framework.
 
 ### Instaling
-composer require andrelrg/
+composer require andrelrg/frasma-php
 
 ### How to use
 #### Router
