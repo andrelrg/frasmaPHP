@@ -1,5 +1,7 @@
 <?php
 
+namespace Frasma;
+
 require_once "Settings/ReturnMessages.php";
 
 /**

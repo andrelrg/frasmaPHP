@@ -1,8 +1,9 @@
 <?php
 
+namespace Frasma;
+
 use Router\Router;
 
-namespace Api;
     //This component is the starter component.
     //If your project will use a different file organization, the definitions 
     //must be before the API class call.

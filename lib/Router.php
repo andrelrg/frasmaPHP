@@ -1,6 +1,6 @@
 <?php
 
-namespace Router;
+namespace Frasma;
 
 define("GET", "GET");
 define("POST", "POST");
