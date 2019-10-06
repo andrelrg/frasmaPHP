@@ -15,13 +15,11 @@ class Api{
      * Starts the application.
      */
     public static function go(){
-            if (!defined("OVERRIDE")){
-                require_once("Settings/Settings.php");
-            }
-            define("ROUTES_FILE", $_SERVER['DOCUMENT_ROOT'].ROUTES_FILE);
-
-            require_once ROUTES_FILE;
-
-            echo Router::execute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+        if (!defined("OVERRIDE")){
+            require_once dirname(__FILE__)."/Settings/Settings.php";
         }
+        require_once ROUTES_FILE;
+
+        echo Router::execute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
     }
+}
