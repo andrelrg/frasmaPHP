@@ -2,13 +2,6 @@
 
 namespace Frasma;
 
-define("GET", "GET");
-define("POST", "POST");
-if (!defined("CONTROLLER")){
-    define("CONTROLLER", "App\Controllers");
-}
-
-
 /**
  * Responsible for route management.
  * 
@@ -16,9 +9,12 @@ if (!defined("CONTROLLER")){
  */
 class Router {
     
-    private static $getroutes = array();
-    private static $postroutes = array();
-    
+    private static $gets = array();
+    private static $posts = array();
+    private static $deletes = array();
+    private static $puts = array();
+    private static $heads = array();
+
     /**
      * Responsible for registering the routes.
      *
@@ -36,11 +32,8 @@ class Router {
             "class"  => $class,
             "method" => $method
         );
-        if ($verb == GET){
-            self::$getroutes[$pattern] = $infos;
-        }else if ($verb == POST){
-            self::$postroutes[$pattern] = $infos;
-        }
+
+        self::getMethodRoutes($verb)[$pattern] = $infos;
     }
     
     /**
@@ -50,23 +43,28 @@ class Router {
      * @param string $url request URL.
      * @param string $rMethod request method.
      * 
-     * @return JSON with information of success or failure of the request, 
+     * @return string with information of success or failure of the request,
      * if it is missing information, and 404 if the route does not exist.
      */
-    public static function execute($url, $rMethod) {
-        if ($rMethod == GET){
-            $routes = self::$getroutes;
-        }
-        if ($rMethod == POST){
-            $routes = self::$postroutes;
-        }
+    public static function execute($url, $rMethod) : string {
+        $routes = self::getMethodRoutes($rMethod);
+
         $url = explode('?', $_SERVER['REQUEST_URI'], 2)[0];
         
         foreach ($routes as $pattern => $infos) {
             if (preg_match($pattern, $url)) {
                 $class = sprintf("%s\%s", CONTROLLER, $infos['class']);
                 $method = $infos['method'];
-                $requestResult = (new $class($_GET, $_POST))->$method();
+                try{
+                    $requestResult = (new $class($_GET, $_POST))->$method();
+                }catch(\Exception $e){
+                    http_response_code(500);
+                    if (VERBOSE){
+                        return print_r($e);
+                    }else{
+                        return "The request resulted in a problem";
+                    }
+                }
                 header('Content-Type: application/json');
                 http_response_code($requestResult['status']);
                 return json_encode($requestResult['content']);
@@ -74,5 +72,20 @@ class Router {
         }
 
         return http_response_code(404);
+    }
+
+    private static function getMethodRoutes($verb): array {
+        switch ($verb){
+            case GET:
+                return self::$gets;
+            case POST:
+                return self::$posts;
+            case PUT:
+                return self::$puts;
+            case DELETE:
+                return self::$deletes;
+            case HEAD:
+                return self::$heads;
+        }
     }
 }

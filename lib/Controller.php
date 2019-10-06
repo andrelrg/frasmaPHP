@@ -2,8 +2,6 @@
 
 namespace Frasma;
 
-require_once "Settings/ReturnMessages.php";
-
 /**
  * Class responsible for assisting controllers.
  * 
@@ -44,14 +42,14 @@ class Controller{
     protected function badRequest(): array{
         return array(
             'status'=>400, 
-            'content'=>ReturnMessages::$BadRequest
+            'content'=>BADREQUEST
         );
     }
 
     protected function notAllowed(): array{
         return array(
             'status'=>403, 
-            'content'=>ReturnMessages::$UserNotAllowed
+            'content'=>NOTALLOWED
         );
     }
 }
