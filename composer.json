@@ -10,6 +10,7 @@
         "php": ">=7.1"
     },
     "autoload": {
-        "psr-4": { "frasma\\" : "/lib" }
+        "psr-4": { "Frasma\\" : "./lib" }
       }
 }
+
