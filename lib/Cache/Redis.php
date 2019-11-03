@@ -8,15 +8,24 @@ class Redis
 {
     private $client;
 
-    public function __construct(ConnectorInterface $conn)
+    /**
+     * Redis constructor.
+     * @param array $connection This array MUST contain these keys:
+     * host, port, database, user, password
+     * @throws \Exception
+     */
+    public function __construct(array $connection)
     {
+        if ($missing = $this->invalidConnection($connection)){
+            throw new \Exception("Invalid Connection array, misssing". $missing);
+        }
         $this->client = new Client(
             array(
-                'host' => $conn->getHost(),
-                'port' => $conn->getPort(),
-                'database' => $conn->getDatabase(),
-                'user' => $conn->getUser(),
-                'password' => $conn->getPassword()
+                'host' => $connection["host"],
+                'port' => $connection["port"],
+                'database' => $connection["database"],
+                'user' => $connection["user"],
+                'password' => $connection["password"]
             )
         );
     }
@@ -53,5 +62,24 @@ class Redis
             $this->set($key, $result, $ttl);
         }
         return json_decode($result, true);
+    }
+
+    private function invalidConnection(array $conn): ?string {
+        if (array_key_exists("host", $conn)) {
+            return "host";
+        }
+        if (array_key_exists("port", $conn)) {
+            return "port";
+        }
+        if (array_key_exists("database", $conn)) {
+            return "database";
+        }
+        if (array_key_exists("user", $conn)) {
+            return "user";
+        }
+        if (array_key_exists("password", $conn)) {
+            return "password";
+        }
+        return null;
     }
 }
