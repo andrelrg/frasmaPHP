@@ -8,7 +8,8 @@
     ],
     "require": {
       "php": ">=7.1",
-      "ext-json": "*"
+      "ext-json": "*",
+      "predis/predis": "^1.1"
     },
     "autoload": {
         "psr-4": {
