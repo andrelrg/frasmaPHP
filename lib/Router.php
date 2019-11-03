@@ -4,11 +4,11 @@ namespace Frasma;
 
 /**
  * Responsible for route management.
- * 
+ *
  * @author André Gaspar
  */
 class Router {
-    
+
     private static $gets = array();
     private static $posts = array();
     private static $deletes = array();
@@ -20,10 +20,10 @@ class Router {
      *
      * @param string $verb GET or POST.
      * @param string $pattern Route pattern.
-     * @param string $class Name of the class to be instantiated for the 
+     * @param string $class Name of the class to be instantiated for the
      * route controller.
      * @param string $method Method to be called.
-     * 
+     *
      * @return void
      */
     public static function route($verb, $pattern, $class, $method) {
@@ -35,14 +35,14 @@ class Router {
 
         self::getMethodRoutes($verb)[$pattern] = $infos;
     }
-    
+
     /**
-     * Function responsible for handling the request by redirecting to the 
+     * Function responsible for handling the request by redirecting to the
      * correct route
      *
      * @param string $url request URL.
      * @param string $rMethod request method.
-     * 
+     *
      * @return string with information of success or failure of the request,
      * if it is missing information, and 404 if the route does not exist.
      */
@@ -50,7 +50,7 @@ class Router {
         $routes = self::getMethodRoutes($rMethod);
 
         $url = explode('?', $_SERVER['REQUEST_URI'], 2)[0];
-        
+
         foreach ($routes as $pattern => $infos) {
             if (preg_match($pattern, $url)) {
                 $class = sprintf("%s\%s", CONTROLLER, $infos['class']);
@@ -75,7 +75,7 @@ class Router {
         return NOTFOUND;
     }
 
-    private static function getMethodRoutes($verb): array {
+    private static function &getMethodRoutes($verb) {
         switch ($verb){
             case GET:
                 return self::$gets;

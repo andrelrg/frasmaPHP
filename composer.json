@@ -11,7 +11,10 @@
       "ext-json": "*"
     },
     "autoload": {
-        "psr-4": { "Frasma\\" : "./lib" }
-      }
+        "psr-4": {
+          "Frasma\\" : "./lib",
+          "App\\" : "src/"
+        }
+    }
 }
 
