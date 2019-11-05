@@ -28,15 +28,24 @@ class Redis
         if ($missing = $this->invalidConnection($connection)){
             throw new \Exception("Invalid Connection array, misssing". $missing);
         }
-        $this->client = new Client(
-            array(
-                'host' => $connection["host"],
-                'port' => $connection["port"],
-                'database' => $connection["database"],
-                'user' => $connection["user"],
-                'password' => $connection["password"]
-            )
-        );
+        if (!empty($connection["password"])){
+            $this->client = new Client(
+                array(
+                    'host' => $connection["host"],
+                    'port' => $connection["port"],
+                    'database' => $connection["database"],
+                    'password' => $connection["password"]
+                )
+            );
+        } else{
+            $this->client = new Client(
+                array(
+                    'host' => $connection["host"],
+                    'port' => $connection["port"],
+                    'database' => $connection["database"]
+                )
+            );
+        }
     }
 
     public function set(string $key, string $value, int $secondsTTL=null): void{
@@ -74,19 +83,16 @@ class Redis
     }
 
     private function invalidConnection(array $conn): ?string {
-        if (array_key_exists("host", $conn)) {
+        if (!array_key_exists("host", $conn)) {
             return "host";
         }
-        if (array_key_exists("port", $conn)) {
+        if (!array_key_exists("port", $conn)) {
             return "port";
         }
-        if (array_key_exists("database", $conn)) {
+        if (!array_key_exists("database", $conn)) {
             return "database";
         }
-        if (array_key_exists("user", $conn)) {
-            return "user";
-        }
-        if (array_key_exists("password", $conn)) {
+        if (!array_key_exists("password", $conn)) {
             return "password";
         }
         return null;
