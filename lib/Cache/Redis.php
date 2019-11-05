@@ -14,8 +14,17 @@ class Redis
      * host, port, database, user, password
      * @throws \Exception
      */
-    public function __construct(array $connection)
+    public function __construct(array $connection=null)
     {
+        global $SETTINGS;
+        //@TODO Add support to multiple connections inside global settings.
+        if (!$connection){
+            if (!$SETTINGS || !$SETTINGS["redis"]){
+                throw new \Exception("Missing configuration definition");
+            }
+            $connection = $SETTINGS["redis"];
+        }
+
         if ($missing = $this->invalidConnection($connection)){
             throw new \Exception("Invalid Connection array, misssing". $missing);
         }

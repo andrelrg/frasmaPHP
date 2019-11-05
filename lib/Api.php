@@ -11,12 +11,13 @@ use Frasma\Router;
  * @package Frasma
  */
 class Api{
+
     /**
      * Starts the application.
      */
     public static function go(){
         if (!defined("OVERRIDE")){
-            require_once dirname(__FILE__)."/Settings/Settings.php";
+            require_once dirname(__FILE__)."/Settings/Constants.php";
         }
         require_once ROUTES_FILE;
 
