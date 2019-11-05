@@ -1,5 +1,7 @@
 <?php
 
+namespace Frasma\Settings;
+
 class Settings
 {
     public static function getSettings(string $filePath) {
