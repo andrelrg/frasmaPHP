@@ -13,12 +13,15 @@ use Frasma\DB\Connectors\MySqlConnector;
 class Connector{
 
     private $connectorName;
-    private $connection;
+    public $connection;
 
     public function __construct(string $connector=null){
         $this->connectorName = $connector ?? DEFAULT_DATABASE;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function connect(){
         switch($this->connectorName){
             case MYSQL:
@@ -27,6 +30,7 @@ class Connector{
             default:
                 die("Wrong default connector setting or connection not supported yet");
         }
+        $this->connection->connect();
     }
 
     public function close(){
