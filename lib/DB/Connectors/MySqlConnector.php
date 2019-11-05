@@ -39,7 +39,6 @@ class MySqlConnector implements ConnectorInterface {
         } catch (PDOException $e) {
             throw new Exception("Invalid mysql connection: " . $e->getMessage());
         }
-
         return $conn;
     }
 

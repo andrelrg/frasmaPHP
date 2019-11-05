@@ -30,7 +30,7 @@ class Connector{
             default:
                 die("Wrong default connector setting or connection not supported yet");
         }
-        $this->connection->connect();
+        return $this->connection->connect();
     }
 
     public function close(){

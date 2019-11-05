@@ -16,8 +16,8 @@ class Repository
     public function __construct()
     {
         $this->conn = new Connector($this->connector);
-        $this->conn->connect();
-        $this->orm = new ORM($this->conn->connection);
+        $conn = $this->conn->connect();
+        $this->orm = new ORM($conn);
     }
     public function __destruct()
     {
