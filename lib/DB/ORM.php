@@ -24,12 +24,13 @@ class ORM{
     private $limit;
     private $conn;
 
-    public function __construct($connector){
+    public function __construct($connector, $table){
         $this->fields=NULL;
         $this->where=NULL;
         $this->orderBy=NULL;
         $this->limit=NULL;
         $this->conn = $connector;
+        $this->table = $table;
     }
     /**
      * Function responsible for performing the assembly of the select in the
