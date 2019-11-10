@@ -53,7 +53,6 @@ class Redis
             $this->client->set($key, $value);
             return;
         }else{
-            $secondsTTL = $secondsTTL*60;
             $this->client->set($key, $value, "ex", $secondsTTL);
             return;
         }
